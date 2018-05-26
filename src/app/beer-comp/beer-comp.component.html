@@ -1,0 +1,71 @@
+<nav class="navbar navbar-light bg-light ">
+    <a class="navbar-brand">Beer I/O</a>
+  
+    <p-button  icon="fa fa-fw fa-sliders"  [matMenuTriggerFor]="menu2" label="Sort"></p-button>
+    <mat-menu #menu2="matMenu">
+      <button mat-menu-item (click)="sorta()">Sort by alcohal in asc <i class="fa fa-sort-asc"></i></button>
+      <button mat-menu-item (click)="sortd()">Sort by alcohal in desc <i class="fa fa-sort-desc"></i></button>
+    </mat-menu>
+    <!-- <p-button  icon="fa fa-fw fa-filter" (click)="openFilter()" label="Filter by Style"></p-button> -->
+
+    <div class="form-inline">
+      <input class="form-control mr-sm-2" [(ngModel)]="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" (click)="searchBear()">Search</button>
+    </div>
+</nav>
+<br>
+<div *ngIf="!havevalue" class="container-fluid" style="margin-left: 40%;margin-top: 10%">
+    <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="havevalue" class="container-fluid">
+  <div *ngFor = "let i of obj" class="bx">
+      <mat-accordion >
+          <mat-expansion-panel >
+              <mat-expansion-panel-header >
+                <mat-panel-title>
+                 {{i.title}}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+                <div class="row">
+                  <div *ngFor="let j of i.value" class="bx">
+                      <mat-card 
+                      (click)="displayInfo(j)"
+                      [ngStyle]="setMyStyles()">{{j.name}}</mat-card>
+                  </div>
+              </div>
+            </mat-expansion-panel>
+      </mat-accordion>
+  </div>
+
+  
+</div>
+
+<p-dialog [header]="dobj.style" [(visible)]="display" [modal]="true" [responsive]="true" [width]="350" [minWidth]="200" [minY]="70">
+   <span>Name:</span> &nbsp;<span>{{dobj.name}}</span><br>
+   <span>Alcohol Content:</span> &nbsp;<span>{{dobj.abv}}</span><br>
+   <span>Bitterness:</span> &nbsp;<span>{{dobj.ibu}}</span><br>
+   <span>Ounces:</span> &nbsp; <span>{{dobj.ounces}}</span>
+    
+        <p-footer>
+            <button type="button" pButton icon="fa-share-alt" (click)="display=false" label="Share"></button>
+        </p-footer>
+</p-dialog>
+
+
+<p-dialog header="Style Filter" [(visible)]="display2" (onHide)="onBoxClose()" [modal]="true" [responsive]="true" >
+    <mat-form-field style="padding-left: 20%">
+        <input matInput placeholder="Search" [(ngModel)]="searchtext" (keyup)="changeKeySet()">
+      </mat-form-field>
+
+      <div class="row">
+          <div *ngFor="let i of keyset" style="margin: 2px;width:250px;height:50px;">
+            <p-checkbox name="group1" value={{i}} label={{i}} [(ngModel)]="selectedStyle" inputId="ny"></p-checkbox>
+          </div>
+      </div>   
+        <p-footer>
+            <button type="button" pButton icon="fa-share-alt" (click)="display2=false" label="Ok"></button>
+        </p-footer>
+</p-dialog>
+
+
+<p-growl [(value)]="msgs"></p-growl>
