@@ -49,7 +49,7 @@ export class BeerCompComponent implements OnInit {
   }
 
   display: boolean = false;
-  dobj={};
+  dobj={style:'',name:'',abv:'',ibu:'',ounces:''};
   displayInfo(j){
     this.display = true;
     this.dobj = j;
